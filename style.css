@@ -1,0 +1,934 @@
+/* :root (Variabel global) */
+:root {                                      /* variabel warna & ukuran utama */
+    --accent: #2b5dc0;                       /* warna aksen merah */
+    --bg: #f8f8f8;                           /* background halaman */
+    --card-bg: #ffffff;                      /* background kartu */
+    --muted: #666;                           /* warna teks sekunder */
+    --nav-height: 72px;                      /* tinggi navbar */
+}
+
+/* Global (reset + body + container) */
+* { margin: 0; padding: 0; box-sizing: border-box; }   /* reset CSS dasar */
+html, body { height: 100%; }                              /* agar full height */
+body {                                                    /* gaya umum body */
+    font-family: 'Poppins', sans-serif;                  /* font utama */
+    background: var(--bg);                               /* warna background */
+    color: #222;                                         /* warna teks */
+    -webkit-font-smoothing: antialiased;                 /* haluskan font */
+    transition: background .35s ease, color .35s ease;   /* transisi mode */
+}
+.container {                                              /* wrapper tengah */
+    max-width: 1100px;                                   /* lebar maksimum */
+    margin: 0 auto;                                      /* posisi tengah */
+    padding: 0 20px;                                     /* spasi kiri-kanan */
+}
+
+/* Dark Mode (global) */
+body.dark {                                               /* body saat dark */
+    background: #121212;                                 /* ubah bg gelap */
+    color: #e7e7e7;                                      /* teks terang */
+}
+body.dark .card,
+body.dark .wisata-item,
+body.dark .kontak-info,
+body.dark .kontak-form,
+body.dark .info-box {                                     /* elemen yg ikut gelap */
+    background: #1f1f1f;                                  /* kartu jadi gelap */
+}
+
+/* NAVBAR
+   - Navbar tetap di atas (fixed)
+   - Logo/title, menu link, toggle dark mode */
+.navbar {                           /* wrapper navbar utama */
+    position: fixed;                 /* selalu di atas halaman */
+    top: 0; left: 0; right: 0;      /* posisi full width */
+    height: var(--nav-height);       /* tinggi navbar sesuai root */
+    display: flex;                   /* fleksibel: logo + menu */
+    align-items: center;             /* vertikal center */
+    justify-content: space-between;  /* logo kiri, menu kanan */
+    padding: 16px 28px;              /* ruang di dalam navbar */
+    gap: 20px;                        /* jarak antar item */
+    background: rgb(255, 255, 255); /* background putih */
+    backdrop-filter: blur(8px);      /* efek blur di belakang */
+    z-index: 999;                    /* supaya di atas konten lain */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06); /* shadow lembut */
+}
+body.dark .navbar {                  /* tema gelap */
+    background: rgba(8,8,8,0.45);    /* transparansi gelap */
+}
+
+.navbar h1 {                         /* logo / judul navbar */
+    color: var(--accent);            /* warna aksen */
+    font-size: 20px;                 /* ukuran font */
+    font-weight: 700;                /* tebal */
+}
+
+.navbar ul {                         /* daftar menu link */
+    list-style: none;                /* hilangkan bullet */
+    display: flex;                   /* horizontal */
+    gap: 18px;                        /* jarak antar link */
+    align-items: center;             /* vertikal center */
+}
+
+.navbar a {                          /* setiap link navbar */
+    color: inherit;                  /* ambil warna default */
+    text-decoration: none;           /* hilangkan underline */
+    font-weight: 500;                /* medium */
+    padding: 6px 8px;                /* ruang di dalam link */
+    border-radius: 6px;              /* sudut membulat */
+}
+
+.navbar a.active {                    /* link aktif/halaman sekarang */
+    background: rgba(192,57,43,0.08); /* latar ringan */
+    color: var(--accent);            /* warna aksen */
+}
+
+.navbar a:hover {                     /* hover effect link */
+    opacity: 0.85;                    /* sedikit transparan */
+}
+
+.toggle-dark {                        /* tombol switch dark mode */
+    cursor: pointer;                  /* pointer saat hover */
+    font-size: 18px;                  /* ukuran icon/tulisan */
+    color: var(--accent);             /* warna aksen */
+    margin-left: 12px;                /* jarak dari menu */
+}
+
+/* beri ruang agar konten tidak tertutup navbar */
+main, .slider, .intro, .judul-halaman, .daftar-wisata, .galeri-grid {
+    padding-top: calc(var(--nav-height) + 14px); /* ruang atas sesuai navbar */
+}
+
+/*HERO SLIDER (Homepage)
+   - Slider gambar besar di atas
+   - Teks hero di atas gambar */
+.slider {                             /* wrapper slider hero */
+    position: relative;               /* untuk posisi slide absolute */
+    width: 100%;                      /* full width halaman */
+    height: 70vh;                     /* tinggi 70% viewport */
+    overflow: hidden;                 /* sembunyikan overflow */
+}
+
+.slide {                              /* tiap slide / gambar background */
+    position: absolute;               /* tumpuk semua slide */
+    inset: 0;                         /* top:0; right:0; bottom:0; left:0 */
+    background-size: cover;           /* gambar menutupi area */
+    background-position: center;      /* posisi di tengah */
+    opacity: 0;                       /* awal tidak terlihat */
+    animation: fade 15s infinite;     /* animasi fading */
+}
+
+.slide:nth-child(1) { animation: fade 15s infinite; animation-delay: 0s; }
+.slide:nth-child(2) { animation: fade 15s infinite; animation-delay: 5s; }
+.slide:nth-child(3) { animation: fade 15s infinite; animation-delay: 5s; }
+.slide:nth-child(4) { animation: fade 15s infinite; animation-delay: 5s; }
+/* keyframes animasi fade in/out tiap slide */
+@keyframes fade {
+    0%   { opacity: 0; }
+    10%  { opacity: 1; transform: scale(1); }  /* fade in */
+    40%  { opacity: 1; }                       /* tampil full */
+    50%  { opacity: 0; }                       /* fade out */
+    100% { opacity: 0; }
+}
+
+.hero-text {                           /* teks di atas slider */
+    position: absolute;                 /* di atas slide */
+    left: 50%; top: 50%;                /* posisi di tengah */
+    transform: translate(-50%, -50%);   /* center horizontal + vertical */
+    text-align: center;                 /* teks rata tengah */
+    color: #ffffff;                     /* putih */
+    text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.822); /* bayangan lembut */
+}
+
+.hero-text h2 { font-size: 42px; margin-bottom: 8px; color: var(--accent); }  /* judul hero */
+.hero-text p  { font-size: 16px; color: #ffffff; opacity: .95; } /* sub-judul hero */
+
+.container h2 {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 15px;  /*memberi jarak antar judul dan isi*/
+    color: var(--accent);
+    text-shadow: 2px 2px 10px rgba(141, 134, 134, 0.822);
+}
+
+.container p {
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 40px;  /*memberi jarak antar judul dan isi*/
+    color: #000000;
+}
+
+/* RESPONSIVE HERO TEXT */
+@media (max-width: 768px) {
+    .hero-text h2 { font-size: 28px; }   /* judul lebih kecil di mobile */
+}
+
+/* POPULER CARDS (Homepage)
+   - Kartu destinasi populer
+   - Bisa flex-wrap / responsive */
+.card-container {                     /* wrapper semua kartu */
+    display: flex;                     /* gunakan flexbox */
+    justify-content: center;           /* center horizontal */
+    gap: 20px;                         /* jarak antar kartu */
+    padding: 10px 20px 50px;           /* padding atas/kanan/bawah/kiri */
+    flex-wrap: wrap;                    /* kartu bisa turun ke baris baru */
+}
+
+.card {                               /* tiap kartu destinasi populer */
+    width: 300px;                      /* lebar tetap 300px */
+    background: var(--card-bg);        /* latar putih atau dark mode */
+    border-radius: 12px;               /* sudut membulat */
+    overflow: hidden;                  /* sembunyikan yang keluar */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07); /* shadow lembut */
+    transition: transform .35s ease, box-shadow .35s ease; /* animasi hover */
+}
+
+.card:hover {                         /* efek saat hover */
+    transform: translateY(-8px);       /* naik sedikit */
+    box-shadow: 0 16px 40px rgba(0,0,0,0.12); /* shadow lebih besar */
+}
+
+.card img {                            /* gambar dalam kartu */
+    width: 100%;                        /* full width kartu */
+    height: 200px;                      /* tinggi tetap */
+    object-fit: cover;                  /* crop agar pas */
+    display: block;                     /* hilangkan inline gap */
+}
+
+.card h3  {                             /* judul kartu */
+    padding: 14px 18px;                 /* jarak teks dari tepi */
+    color: var(--accent);               /* warna aksen */
+    font-size: 18px;                     /* ukuran teks */
+}
+
+/* BUTTON DETAIL (biru) */
+.btn-detail {                           /* tombol lihat detail */
+    display: inline-block;               /* seperti inline tapi bisa padding */
+    padding: 10px 16px;                  /* jarak dalam tombol */
+    background: var(--accent);                 /* biru standar */
+    color: white;                        /* teks putih */
+    text-decoration: none;               /* hilangkan garis bawah */
+    border-radius: 10px;                 /* sudut membulat */
+    font-weight: 600;                     /* tebal sedang */
+    transition: background .25s;         /* animasi hover */
+}
+
+.btn-detail:hover { background: var(--accent); } /* efek hover tombol */
+
+/* SECTION TITLE
+   - Judul tiap halaman / section */
+.judul-halaman {                     /* judul section di tengah */
+    text-align: center;               /* teks di tengah */
+    font-size: 30px;                  /* ukuran font */
+    margin: 30px 0 10px;              /* jarak atas 30px, bawah 10px */
+    font-weight: 700;                 /* tebal */
+    color: var(--accent);  
+    text-shadow: #0000006d 2px 2px 4px; 
+}               
+
+/* DAFTAR WISATA 
+   - Grid vertical / baris
+   - Desktop: gambar kiri, teks kanan
+   - Mobile: lurus ke bawah (responsive) */
+.daftar-wisata {                      /* container semua destinasi */
+    max-width: 1100px;                /* lebar maksimal */
+    margin: 0 auto;                    /* center horizontal */
+    display: flex;                     /* gunakan flexbox */
+    flex-direction: column;            /* default kolom vertikal */
+    gap: 35px;                         /* jarak antar item */
+    padding: 20px;                     /* padding keseluruhan */
+}
+
+.wisata-item {                        /* tiap baris destinasi */
+    display: flex;                     /* gambar kiri, teks kanan */
+    gap: 20px;                         /* jarak antar gambar dan teks */
+    background: var(--card-bg);        /* latar putih / dark mode */
+    padding: 20px;                     /* jarak isi dari tepi */
+    border-radius: 18px;               /* sudut membulat */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1); /* shadow lembut */
+    opacity: 0;
+    transform: translateY(50px);        /* animasi hover */
+    transition: all 0.6s ease-out;                 
+}
+
+/* Saat terlihat di viewport */
+.wisata-item.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.wisata-item:hover {                  /* efek hover tiap item */
+    transform: translateY(-6px);       /* naik sedikit */
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15); /* shadow lebih besar */
+}
+
+.wisata-item img {                     /* foto destinasi */
+    width: 260px;                       /* lebar tetap desktop */
+    height: 180px;                      /* tinggi tetap */
+    object-fit: cover;                  /* crop agar pas */
+    border-radius: 14px;                /* sudut membulat */
+}
+
+.wisata-item .text {                   /* kolom teks (kanan) */
+    flex: 1;                            /* ambil sisa lebar */
+}
+
+.wisata-item .text h3 {                /* judul destinasi */
+    font-size: 1.6rem;                 /* ukuran teks */
+    margin-bottom: 10px;               /* jarak bawah */
+    color: #204b9c;                     /* warna biru */
+}
+
+.wisata-item .text p {                 /* deskripsi singkat */
+    text-align: justify;               /* rata kiri-kanan */
+    color: #444;                       /* teks abu gelap */
+    line-height: 1.5;                  /* jarak antar baris */
+}
+
+.daftar-kuliner {                      /* container semua destinasi */
+    max-width: 1100px;                /* lebar maksimal */
+    margin: 0 auto;                    /* center horizontal */
+    display: flex;                     /* gunakan flexbox */
+    flex-direction: column;            /* default kolom vertikal */
+    gap: 35px;                         /* jarak antar item */
+    padding: 20px;
+} 
+
+.kuliner-item {                        /* tiap baris destinasi */
+    display: flex;                     /* gambar kiri, teks kanan */
+    gap: 20px;                         /* jarak antar gambar dan teks */
+    background: var(--card-bg);        /* latar putih / dark mode */
+    padding: 20px;                     /* jarak isi dari tepi */
+    border-radius: 18px;               /* sudut membulat */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1); /* shadow lembut */
+                    
+}
+
+.kuliner-item.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.kuliner-item:hover {                  /* efek hover tiap item */
+    transform: translateY(-6px);       /* naik sedikit */
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15); /* shadow lebih besar */
+}
+
+.kuliner-item img {                     /* foto destinasi */
+    width: 260px;                       /* lebar tetap desktop */
+    height: 180px;                      /* tinggi tetap */
+    object-fit: cover;                  /* crop agar pas */
+    border-radius: 14px;                /* sudut membulat */
+}
+
+.kuliner-item .text {                   /* kolom teks (kanan) */
+    flex: 1;                            /* ambil sisa lebar */
+}
+
+.kuliner-item .text h3 {                /* judul destinasi */
+    font-size: 1.6rem;                 /* ukuran teks */
+    margin-bottom: 10px;               /* jarak bawah */
+    color: var(--accent);                     /* warna biru */
+}
+
+.kuliner-item .text p {                 /* deskripsi singkat */
+    text-align: justify;               /* rata kiri-kanan */
+    color: #444;                       /* teks abu gelap */
+    line-height: 1.5;                  /* jarak antar baris */
+}
+
+
+
+/* tombol detail biru */
+.btn-detail {                           /* tombol lihat detail di daftar */
+    display: inline-block;               /* inline tapi bisa padding */
+    padding: 10px 16px;                  /* jarak dalam tombol */
+    background: #2563eb;                 /* biru standar */
+    color: white;                        /* teks putih */
+    text-decoration: none;               /* hilangkan garis bawah */
+    border-radius: 10px;                 /* sudut membulat */
+    font-weight: 600;                     /* tebal sedang */
+    transition: background .25s;         /* animasi hover */
+}
+
+.btn-detail:hover { background: #1d4ed8; } /* efek hover tombol */
+
+/* RESPONSIVE */
+@media (max-width: 768px) {             /* mobile / tablet kecil */
+    .wisata-item {                       /* tiap destinasi */
+        flex-direction: column;          /* gambar di atas, teks di bawah */
+        text-align: center;              /* teks center */
+    }
+    .wisata-item img {                   /* foto full width */
+        width: 100%; 
+        height: 200px; 
+    }
+    .daftar-wisata { padding: 14px; }   /* padding lebih kecil */
+}
+
+/* GALERI (grid image thumbnails) */
+.galeri-grid {                         /* container grid galeri */
+    padding: 20px 40px 70px;           /* jarak atas, samping, bawah */
+    display: grid;                      /* gunakan grid */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* kolom responsif */
+    gap: 20px;                          /* jarak antar gambar */
+}
+
+.galeri-grid img {                     /* tiap gambar thumbnail */
+    width: 100%;                        /* lebar full grid cell */
+    height: 200px;                      /* tinggi tetap */
+    object-fit: cover;                  /* crop agar pas */
+    border-radius: 12px;                /* sudut membulat */
+    transition: transform .35s ease, opacity .35s ease; /* animasi hover */
+}
+
+/* KONTAK
+   - kontak-wrapper: wrapper utama
+   - kontak-info: info kontak (alamat, telepon)
+   - kontak-form: form kirim pesan */
+.kontak-wrapper {                      /* container semua kontak */
+    display: flex;                     /* side by side */
+    gap: 30px;                          /* jarak antar card */
+    padding: 20px 40px 60px;           /* jarak atas, samping, bawah */
+    justify-content: center;           /* center horizontal */
+    flex-wrap: wrap;                    /* responsif, turun ke bawah */
+}
+
+.kontak-info,                           /* card info kontak */
+.kontak-form {                           /* card form kontak */
+    width: 350px;                        /* lebar tetap */
+    background: var(--card-bg);          /* latar putih / dark mode */
+    padding: 25px;                        /* jarak isi dari tepi */
+    border-radius: 14px;                  /* sudut membulat */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1); /* shadow lembut */
+}
+
+/* judul di tiap card */
+.kontak-info h3, .kontak-form h3 { 
+    color: var(--accent);                /* warna aksen biru */
+    font-size: 22px; 
+    margin-bottom: 15px; 
+}
+
+/* item info alamat/telepon/email */
+.info-item { display: flex; align-items: center; margin-bottom: 12px; }
+.icon { font-size: 20px; margin-right: 10px; } /* icon kecil di samping teks */
+
+/* tombol whatsapp */
+.wa-btn { 
+    display: block; 
+    padding: 12px; 
+    background: #25D366; 
+    color: white; 
+    text-align: center; 
+    border-radius: 10px; 
+    text-decoration: none; 
+    font-weight: 600; 
+    transition: .3s ease;
+}
+.wa-btn:hover { opacity: .8; }           /* hover lebih gelap sedikit */
+
+/* form input & textarea */
+.kontak-form input, .kontak-form textarea { 
+    padding: 12px; 
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+    font-size: 14px;
+}
+
+.kontak-form input:focus, .kontak-form textarea:focus {
+    border-color: var(--accent);          /* border merah saat fokus */
+    box-shadow: 0 0 6px rgba(192,57,43,0.4);
+    outline: none; 
+}
+
+/* tombol kirim form */
+.kontak-form button { 
+    padding: 12px; 
+    border: none; 
+    background: var(--accent); 
+    color: white; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    font-weight: 600;
+    transition: .3s ease;
+}
+.kontak-form button:hover { opacity: .8; }
+
+/* DETAIL WISATA
+   - halaman detail destinasi
+   - slider foto, info box, map, rating */
+.detail-container {                     /* wrapper utama detail */
+    max-width: 900px;                    /* lebar maksimal */
+    margin: 0 auto;                      /* center halaman */
+    padding: 30px 20px;                  /* jarak isi dari tepi */
+}
+
+/* SLIDER DETAIL FOTO */
+.slider-detail {                        /* container slider foto */
+    position: relative;                  /* untuk tombol prev/next absolute */
+    width: 100%; 
+    height: 330px;                       /* tinggi slider */
+    overflow: hidden;                    /* sembunyikan overflow */
+    border-radius: 24px;                 /* sudut membulat */
+    margin-bottom: 25px;                 /* jarak bawah */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* shadow lembut */
+    background: #ddd;                     /* latar sementara */
+}
+
+.slider-detail img {                     /* tiap gambar slider */
+    width: 100%; 
+    height: 330px; 
+    object-fit: cover;                   /* crop agar pas */
+    border-radius: 24px;
+}
+
+/* tombol navigasi slider */
+.prev, .next {                           /* tombol prev/next */
+    position: absolute; 
+    top: 50%; transform: translateY(-50%); /* center vertikal */
+    background: rgba(0,0,0,0.5);        /* semi-transparent */
+    padding: 10px 16px; 
+    border-radius: 12px; 
+    color: #fff; 
+    cursor: pointer; 
+    font-size: 22px;
+    transition: .3s ease;
+}
+.prev:hover, .next:hover { background: rgba(0,0,0,0.75); } /* hover lebih gelap */
+.prev { left: 18px; }                     /* posisi kiri */
+.next { right: 18px; }                    /* posisi kanan */
+
+/* TEKS DETAIL */
+.detail-text {                           /* deskripsi wisata */
+    font-size: 1.07rem; 
+    color: #333; 
+    line-height: 1.7; 
+    margin-bottom: 20px; 
+    text-align: justify;                  /* rata kiri-kanan */
+}
+
+/* INFO BOX (alamat, harga, jam buka) */
+.info-box {                              /* card info kecil */
+    background: var(--card-bg);           /* latar card */
+    padding: 22px; 
+    border-radius: 18px; 
+    margin: 30px 0; 
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12); /* shadow lembut */
+    border-left: 6px solid #2563eb;       /* aksen biru kiri */
+}
+
+/* MAP */
+.map-container {                          /* container map */
+    margin-top: 25px; 
+    border-radius: 22px; 
+    overflow: hidden; 
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* tombol lihat map */
+.btn-map { 
+    display: block; 
+    max-width: 250px; 
+    margin: 25px auto;                    /* center horizontal */
+    padding: 12px 20px; 
+    background: #2563eb;                  /* biru */
+    color: white; 
+    border-radius: 12px; 
+    text-decoration: none; 
+    font-weight: 600; 
+    transition: .3s ease;
+}
+.btn-map:hover { background: #1d4ed8; }   /* hover lebih gelap */
+
+/* tombol kembali / back */
+.btn-detail {                              /* bisa dipakai back button */
+    display: inline-block; 
+    margin-top: 10px; 
+    padding: 10px 18px; 
+    background: #4b5563;                  /* abu gelap */
+    color: white; 
+    text-decoration: none; 
+    border-radius: 10px; 
+    font-weight: 600; 
+    transition: .25s;
+}
+.btn-detail:hover { background: #374151; }
+
+/* RATING */
+.rating { 
+    text-align: center; 
+    font-size: 24px; 
+    color: #f1c40f;                       /* kuning bintang */
+    margin: 18px 0; 
+}
+
+/* ANIMASI FADE-UP */
+@keyframes fadeUp {                        /* animasi muncul dari bawah */
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.detail-text, .info-box { animation: fadeUp .7s ease forwards; }
+
+/* RESPONSIVE (mobile & tablet)
+   - atur tampilan agar fleksibel di layar kecil */
+
+/* ===== Tablet (max-width: 992px) ===== */
+@media (max-width: 992px) {
+    .wisata-item img { width: 220px; height: 140px; } /* foto sedikit mengecil */
+}
+
+/* ===== Mobile (max-width: 768px) ===== */
+@media (max-width: 768px) {
+    /* Navbar lebih compact */
+    .navbar { padding: 12px 16px; }
+    .hero-text h2 { font-size: 28px; }                /* judul hero mengecil */
+
+    /* Wisata-item stacking vertikal */
+    .wisata-item {
+        flex-direction: column;                       /* gambar di atas, teks di bawah */
+        text-align: center;
+    }
+    .wisata-item img { width: 100%; height: 200px; }  /* foto full width */
+    .daftar-wisata { padding: 14px; }               /* padding lebih kecil */
+    
+    /* Kontak wrapper menumpuk vertikal */
+    .kontak-wrapper { flex-direction: column; gap: 20px; }
+}
+
+/* ===== Mobile kecil (max-width: 480px) ===== */
+@media (max-width: 480px) {
+    .hero-text h2 { font-size: 22px; }               /* judul hero makin kecil */
+    .btn-detail, .btn-map, .btn-primary { padding: 10px 14px; font-size: 14px; } /* tombol mengecil */
+    .kontak-info, .kontak-form { width: 100%; }     /* full width kartu kontak */
+}
+
+/* DARK MODE
+   - toggle dengan class "dark" di <body> */
+
+/* body.dark sudah di root global */
+body.dark .card,
+body.dark .wisata-item,
+body.dark .kontak-info,
+body.dark .kontak-form,
+body.dark .info-box {
+    background: #2b2b2b;       /* kartu dan kotak gelap */
+    color: #e7e7e7;            /* teks terang */
+}
+
+/* Navbar dark mode */
+body.dark .navbar { 
+    background: rgba(8,8,8,0.45); 
+}
+
+/* Loader overlay dark */
+body.dark .loader-overlay { 
+    background: rgba(0,0,0,0.7); 
+}
+
+/* Tombol dark mode toggle tetap kontras */
+.toggle-dark { color: var(--accent); }
+
+/* Tombol tetap konsisten di dark mode */
+.btn-primary, .btn-detail, .btn-map, .wa-btn { 
+    background: var(--accent);
+    /* warna tetap sesuai desain */
+}
+
+
+/* Footer dark mode */
+body.dark footer { background: #c0392b; color: #fff; }
+
+/* DETAIL WISATA & INFO BOX
+   - halaman detail tiap destinasi
+   - slider gambar, teks, info-box, map */
+
+/* ===== Container Detail ===== */
+.detail-container {                    /*membungkus seluruh detail halaman supaya rapi.*/                
+    max-width: 900px;                  /* lebar maksimal halaman */
+    margin: 0 auto;                    /* center horizontal */
+    padding: 30px 20px;                /* jarak dalam */
+}
+
+/* ===== Slider Detail ===== */
+.slider-detail {                /*menampilkan slider gambar destinasi dengan tombol navigasi.*/            
+    position: relative;
+    width: 100%;
+    height: 330px;                     /* tinggi slider */
+    overflow: hidden;                  /* crop gambar */
+    border-radius: 24px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* bayangan */
+    background: #ddd;                  /* warna fallback */
+}
+.slider-detail img { 
+    width: 100%; 
+    height: 330px; 
+    object-fit: cover; 
+    border-radius: 24px; 
+}
+
+/* Tombol prev/next slider */
+.prev, .next {                          
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    padding: 10px 16px;
+    border-radius: 12px;
+    color: #fff; 
+    cursor: pointer;
+}
+.prev { left: 18px; } 
+.next { right: 18px; }
+
+/* ===== Teks Detail ===== */
+.detail-text { 
+    font-size: 1.07rem; 
+    color: #333; 
+    line-height: 1.7; 
+    margin-bottom: 20px; 
+    text-align: justify; 
+}
+
+/* ===== Info Box ===== */
+.info-box {                     /*menampilkan informasi penting seperti alamat, harga, jam buka dalam kotak khusus.*/
+    background: var(--card-bg);        /* latar kartu */
+    padding: 22px; 
+    border-radius: 18px; 
+    margin: 30px 0; 
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12); 
+    border-left: 6px solid #2563eb;   /* aksen biru */
+}
+
+/* ===== Map Container ===== */
+.map-container {                 /*membungkus peta lokasi destinasi dengan border radius dan shadow.*/
+    margin-top: 25px; 
+    border-radius: 22px; 
+    overflow: hidden; 
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12); 
+}
+
+/* Tombol buka map */
+.btn-map {                  /*tombol biru untuk membuka peta lokasi destinasi.*/    
+    display: block; 
+    max-width: 250px; 
+    margin: 25px auto; 
+    padding: 12px 20px; 
+    background: #2563eb; 
+    color: white; 
+    border-radius: 12px; 
+    text-decoration: none; 
+}
+
+/* ===== Rating ===== */
+.rating {                     /*menampilkan rating bintang untuk destinasi.*/
+    text-align: center; 
+    font-size: 24px; 
+    color: #f1c40f; 
+    margin: 18px 0; 
+}
+
+/* GALERI & KONTEN LAIN
+   - grid gambar galeri
+   - kontak, form, WhatsApp button */
+
+/* ===== Galeri Grid ===== */
+.galeri-grid {                          /*menampilkan foto-foto destinasi dalam grid responsif.*/             
+    padding: 20px 40px 70px;           /* jarak atas-bawah & kiri-kanan */
+    display: grid;                     
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* responsive grid */
+    gap: 20px;                         /* jarak antar gambar */
+}
+.galeri-grid img { 
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover;                 /* agar gambar tidak terdistorsi */
+    border-radius: 12px;               /* sudut bulat */
+}
+
+/* ===== Kontak Wrapper ===== */
+.kontak-wrapper {                   /*membungkus kontak info dan form, fleksibel untuk desktop & mobile.*/           
+    display: flex;                     
+    gap: 30px;                         
+    padding: 20px 40px 60px;           
+    justify-content: center;           
+    flex-wrap: wrap;                    /* responsive, jika sempit gambar ke bawah */
+}
+
+/* Card info & form */
+.kontak-info,               /*menampilkan alamat, email, telepon.*/
+.kontak-form {          /*form untuk pengunjung kirim pesan.*/                    
+    width: 350px;                       
+    background: var(--card-bg);        
+    padding: 25px;                      
+    border-radius: 14px;               
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+/* Judul di card */
+.kontak-info h3, .kontak-form h3 { 
+    color: var(--accent); 
+    font-size: 22px; 
+    margin-bottom: 15px; 
+}
+
+/* Item info di kontak */
+.info-item { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 12px; 
+}
+.icon { 
+    font-size: 20px; 
+    margin-right: 10px; 
+}
+
+/* Tombol WhatsApp */
+.wa-btn {                   /*tombol hijau WhatsApp untuk kontak cepat.*/
+    display: block; 
+    padding: 12px; 
+    background: #25D366; 
+    color: white; 
+    text-align: center; 
+    border-radius: 10px; 
+    text-decoration: none; 
+    font-weight: 600; 
+}
+
+/* Form Input & Textarea */
+.kontak-form input, .kontak-form textarea { 
+    padding: 12px; 
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+}
+.kontak-form button { 
+    padding: 12px; 
+    border: none; 
+    background: var(--accent); 
+    color: white; 
+    border-radius: 10px; 
+    cursor: pointer; 
+}
+.kontak-form button:hover { opacity: .85; }
+
+/* RESPONSIVE & LOADER
+   - media queries untuk tablet & HP
+   - loader overlay saat navigasi */
+
+/* ===== Responsive untuk tablet & HP ===== */
+@media (max-width: 992px) {          /* tablet */
+    .wisata-item img { width: 220px; height: 140px; } /* kecilkan foto destinasi */
+}
+
+@media (max-width: 768px) {          /* smartphone */
+    .navbar { padding: 12px 16px; }  /* navbar lebih sempit */
+    .hero-text h2 { font-size: 28px; } /* teks hero lebih kecil */
+    .wisata-item { 
+        flex-direction: column;       /* item wisata vertikal */
+        text-align: center; 
+    }
+    .wisata-item img { width: 100%; height: 200px; } /* full-width image */
+    .daftar-wisata { padding: 14px; } /* jarak lebih kecil */
+}
+
+/* ===== Loader Overlay ===== */
+.loader-overlay {                     /* tampilan fullscreen saat loading */  /*memberikan feedback visual saat konten sedang dimuat atau klik destinasi.*/
+    position: fixed; 
+    inset: 0;                          /* top:0; right:0; bottom:0; left:0 */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 99999; 
+    background: rgba(255,255,255,0.85); /* overlay putih transparan */
+}
+body.dark .loader-overlay { 
+    background: rgba(0,0,0,0.7);       /* versi dark mode */
+}
+
+/* Spinner animasi loading */
+.spinner { 
+    width: 55px; 
+    height: 55px; 
+    border: 6px solid #ccc; 
+    border-top-color: var(--accent); /* warna aksen bergerak */
+    border-radius: 50%; 
+    animation: spin 0.8s linear infinite; 
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* BUTTONS & AKHIR FILE
+   - konsistensi warna tombol
+   - primary (merah) dan secondary (biru) */
+
+/* ===== Tombol primary ===== */
+.btn-primary { 
+    display: inline-block; 
+    padding: 12px 26px; 
+    background: var(--accent); /* warna biru aksen utama */
+    color: white; 
+    border-radius: 8px; 
+    font-weight: 600; 
+    text-decoration: none; 
+    transition: transform .3s, opacity .3s;
+    margin-top: 20px;
+}
+.btn-primary:hover {  /*digunakan untuk aksi utama (misal tombol “pesan” atau “booking”).*/
+    opacity: .95; 
+    transform: translateY(-3px);  /* efek naik sedikit saat hover */
+}
+
+/* ===== Tombol secondary ===== */
+/* bisa digunakan untuk tombol detail / list */
+.btn-detail {   /*tombol sekunder untuk lihat detail, konsisten dengan daftar wisata.*/
+    display: inline-block; 
+    padding: 10px 16px; 
+    background: #2563eb; /* biru untuk secondary */
+    color: white; 
+    text-decoration: none; 
+    border-radius: 10px; 
+    font-weight: 600; 
+    transition: background .25s, transform .25s;
+}
+.btn-detail:hover { 
+    background: #1d4ed8; 
+    transform: translateY(-3px);  /* efek naik saat hover */
+}
+
+.btn-back {                  /*tombol biru untuk membuka peta lokasi destinasi.*/    
+    display: block; 
+    max-width: 250px; 
+    margin: 25px auto; 
+    padding: 12px 20px; 
+    background: #2563eb; 
+    color: white; 
+    border-radius: 12px; 
+    text-decoration: none; 
+}
+.btn-back:hover { 
+    background: #1d4ed8; 
+    transform: translateY(-3px);  /* efek naik saat hover */
+}
+
+/* ==========================
+   FOOTER
+   ========================== */
+footer { 
+    background-color: #204b9c; /* warna merah aksen utama */
+    color: white;              /* teks putih */
+    text-align: center;        /* teks di tengah */
+    padding: 18px 20px;        /* jarak dalam footer */
+    margin-top: 40px;          /* jarak dari konten atas */
+    font-size: 14px;           /* ukuran teks footer */
+    border-top-left-radius: 12px;  /* opsional rounded */
+    border-top-right-radius: 12px; /* opsional rounded */
+}
+
+/* link dalam footer (jika ada) */
+footer a { 
+    color: white; 
+    text-decoration: underline; 
+}
+
+footer a:hover { 
+    opacity: 0.85;  /* efek hover ringan */
+}
