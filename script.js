@@ -117,44 +117,63 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Ambil semua elemen wisata-item
-const items = document.querySelectorAll('.wisata-item');
+const itemsWisata = document.querySelectorAll('.wisata-item');
+const itemsKuliner = document.querySelectorAll('.kuliner-item');
 
 function showItemsOnScroll() {
-    const triggerBottom = window.innerHeight / 5 * 4; // 80% dari viewport
+    const triggerBottom = window.innerHeight / 5 * 4;
 
-    items.forEach(item => {
+    // Animasi WISATA
+    itemsWisata.forEach(item => {
         const itemTop = item.getBoundingClientRect().top;
+        if (itemTop < triggerBottom) {
+            item.classList.add('show');
+        }
+    });
 
-        if(itemTop < triggerBottom){
+    // Animasi KULINER
+    itemsKuliner.forEach(item => {
+        const itemTop = item.getBoundingClientRect().top;
+        if (itemTop < triggerBottom) {
             item.classList.add('show');
         }
     });
 }
 
-
-// Jalankan saat scroll
 window.addEventListener('scroll', showItemsOnScroll);
+document.addEventListener('DOMContentLoaded', showItemsOnScroll);
 
-// Jalankan juga sekali saat halaman load
-showItemsOnScroll();
 
 // Buat objek audio
 const klikSound = new Audio('musik/klik.wav');
+const clicksound2 = new Audio('musik/klik2.ogg');
 
-// Ambil semua tombol detail
+// Ambil semua tombol detail & back
 const detailButtons = document.querySelectorAll('.btn-detail');
+const detailsButtons = document.querySelectorAll('.btn-back');
 
-// Tambahkan event click
+// Tombol detail
 detailButtons.forEach(button => {
     button.addEventListener('click', (e) => {
-        e.preventDefault(); // hentikan sementara navigasi
-        klikSound.currentTime = 0; // mulai dari awal
+        e.preventDefault();
+        klikSound.currentTime = 0;
         klikSound.play();
 
-        // Pindah halaman setelah 200ms supaya suara terdengar
         setTimeout(() => {
             window.location.href = button.href;
-        }, 200);
+        }, 300);
+    });
+});
+
+// Tombol back
+detailsButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        clicksound2.currentTime = 0;
+        clicksound2.play();
+
+        setTimeout(() => {
+            window.location.href = button.href;
+        }, 300);
     });
 });
