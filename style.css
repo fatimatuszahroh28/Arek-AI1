@@ -276,7 +276,7 @@ main, .slider, .intro, .judul-halaman, .daftar-wisata, .galeri-grid {
 .wisata-item .text h3 {                /* judul destinasi */
     font-size: 1.6rem;                 /* ukuran teks */
     margin-bottom: 10px;               /* jarak bawah */
-    color: #204b9c;                     /* warna biru */
+    color: var(--accent);                     /* warna biru */
 }
 
 .wisata-item .text p {                 /* deskripsi singkat */
@@ -353,7 +353,7 @@ main, .slider, .intro, .judul-halaman, .daftar-wisata, .galeri-grid {
     transition: background .25s;         /* animasi hover */
 }
 
-.btn-detail:hover { background: #1d4ed8; } /* efek hover tombol */
+.btn-detail:hover { background: var(--accent); } /* efek hover tombol */
 
 /* RESPONSIVE */
 @media (max-width: 768px) {             /* mobile / tablet kecil */
@@ -446,7 +446,7 @@ main, .slider, .intro, .judul-halaman, .daftar-wisata, .galeri-grid {
     border-radius: 18px; 
     margin: 30px 0; 
     box-shadow: 0 6px 18px rgba(0,0,0,0.12); /* shadow lembut */
-    border-left: 6px solid #2563eb;       /* aksen biru kiri */
+    border-left: 6px solid var(--accent);       /* aksen biru kiri */
 }
 
 /* MAP */
@@ -463,14 +463,14 @@ main, .slider, .intro, .judul-halaman, .daftar-wisata, .galeri-grid {
     max-width: 250px; 
     margin: 25px auto;                    /* center horizontal */
     padding: 12px 20px; 
-    background: #2563eb;                  /* biru */
+    background: var(--accent);                  /* biru */
     color: white; 
     border-radius: 12px; 
     text-decoration: none; 
     font-weight: 600; 
     transition: .3s ease;
 }
-.btn-map:hover { background: #1d4ed8; }   /* hover lebih gelap */
+.btn-map:hover { background: var(--accent); }   /* hover lebih gelap */
 
 
 /* RATING */
@@ -587,7 +587,7 @@ body.dark footer { background: #c0392b; color: #fff; }
     border-radius: 18px; 
     margin: 30px 0; 
     box-shadow: 0 6px 18px rgba(0,0,0,0.12); 
-    border-left: 6px solid #2563eb;   /* aksen biru */
+    border-left: 6px solid var(--accent);   /* aksen biru */
 }
 
 /* ===== Map Container ===== */
@@ -604,7 +604,7 @@ body.dark footer { background: #c0392b; color: #fff; }
     max-width: 250px; 
     margin: 25px auto; 
     padding: 12px 20px; 
-    background: #2563eb; 
+    background: var(--accent); 
     color: white; 
     border-radius: 12px; 
     text-decoration: none; 
@@ -874,7 +874,7 @@ body.dark .loader-overlay {
 .btn-detail {   /*tombol sekunder untuk lihat detail, konsisten dengan daftar wisata.*/
     display: inline-block; 
     padding: 10px 16px; 
-    background: #2563eb; /* biru untuk secondary */
+    background: var(--accent); /* biru untuk secondary */
     color: white; 
     text-decoration: none; 
     border-radius: 10px; 
@@ -882,7 +882,7 @@ body.dark .loader-overlay {
     transition: background .25s, transform .25s;
 }
 .btn-detail:hover { 
-    background: #1d4ed8; 
+    background: var(--accent); 
     transform: translateY(-3px);  /* efek naik saat hover */
 }
 
@@ -891,13 +891,13 @@ body.dark .loader-overlay {
     max-width: 250px; 
     margin: 25px auto; 
     padding: 12px 20px; 
-    background: #2563eb; 
+    background: var(--accent); 
     color: white; 
     border-radius: 12px; 
     text-decoration: none; 
 }
 .btn-back:hover { 
-    background: #1d4ed8; 
+    background: var(--accent); 
     transform: translateY(-3px);  /* efek naik saat hover */
 }
 
@@ -905,7 +905,7 @@ body.dark .loader-overlay {
    FOOTER
    ========================== */
 footer { 
-    background-color: #204b9c; /* warna merah aksen utama */
+    background-color: var(--accent); /* warna merah aksen utama */
     color: white;              /* teks putih */
     text-align: center;        /* teks di tengah */
     padding: 18px 20px;        /* jarak dalam footer */
